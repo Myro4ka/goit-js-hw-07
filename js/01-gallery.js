@@ -31,11 +31,22 @@ function onGalleryContainerClick(event) {
   event.preventDefault();
 
   const isGalleryImageEl = event.target.classList.contains("gallery__image");
+
   if (!isGalleryImageEl) {
     return;
   }
-  console.log(event.target.dataset.source);
 
-  const imageEl = event.target;
-  const parentImageUrl = imageEl.closest(".gallery__item");
+  const instance = basicLightbox.create(
+    `<img src="${event.target.dataset.source}" alt="${event.target.alt}">`,
+    {
+      closable: true,
+    }
+  );
+  instance.show();
+
+  galleryContainer.addEventListener("keydown", (event) => {
+    if (event.code === "Escape") {
+      instance.close();
+    }
+  });
 }
